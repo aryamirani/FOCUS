@@ -1,15 +1,15 @@
 
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://cdn.discordapp.com/attachments/837353561259769958/1012801276867772416/rainainaina.png" alt="Markdownify" width="900"></a>
+  <a href="https://github.com/Friedlguana/FOCUS"><img src="https://cdn.discordapp.com/attachments/879937276858220564/1092860472723779625/image.png" alt="FOCUS" width="900"></a>
   <br>
   <b> <u>
-  🌧️ The R.A.I.N Framework 🌧️
+  🌧️ The FOCUS Framework 🌧️
   </b> </u>
   <br>
 </h1>
 
-<h4 align="center">A Ransomware prevention framework which integrates Machine Learning to reduce chances of getting affected, Made with  <a href="https://www.python.org/" target="_blank">Python</a>.</h4>
+<h4 align="center">A Malware prevention framework which integrates Machine Learning to reduce chances of getting affected, Made with  <a href="https://www.python.org/" target="_blank">Python</a>.</h4>
 
 
 </p>
