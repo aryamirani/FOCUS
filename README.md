@@ -21,7 +21,7 @@
   <a href="#credits">Credits</a> 
 </p>
 
-![screenshot](https://cdn.discordapp.com/attachments/879937276858220564/1092861110555787274/image.png)
+![screenshot](https://media.discordapp.net/attachments/879937276858220564/1092861110555787274/image.png?width=771&height=363)
 
 <u>
 
