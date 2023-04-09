@@ -1,20 +1,18 @@
 from colorama import Fore
-import threading, time, psutil, requests, json, webbrowser
-from functions import port_scanner, clear
-import matplotlib.pyplot as plt
+import threading, time, psutil, webbrowser
+from functions import port_scanner, clear, pushbullet_noti, PortCloser ,OpenPorts
 
 while True:
     #Display project name
     clear()
     print("")
-    print(f" 💦     {Fore.BLUE} ██████╗     █████╗    ██╗   ███╗   ██╗       💦")
-    print(f"    💦  {Fore.BLUE} ██╔══██╗   ██╔══██╗   ██║   ████╗  ██║    💦")
-    print(f" 💦     {Fore.BLUE} ██████╔╝   ███████║   ██║   ██╔██╗ ██║       💦")
-    print(f"    💦  {Fore.BLUE} ██╔══██╗   ██╔══██║   ██║   ██║╚██╗██║    💦")
-    print(f" 💦     {Fore.BLUE} ██║  ██║"f"{Fore.RED}██╗"f"{Fore.BLUE}██║  ██║{Fore.RED}██╗{Fore.BLUE}██║"f"{Fore.RED}██╗"f"{Fore.BLUE}██║ ╚████║{Fore.RED}██╗{Fore.BLUE}    💦")
-    print(f"    💦  {Fore.BLUE} ╚═╝  ╚═╝"f"{Fore.RED}╚═╝"f"{Fore.BLUE}╚═╝  ╚═╝{Fore.RED}╚═╝{Fore.BLUE}╚═╝{Fore.RED}╚═╝{Fore.BLUE}╚═╝  ╚═══╝{Fore.RED}╚═╝{Fore.BLUE} 💦")
-    print("")
-    print(f"{Fore.YELLOW}ᴀ ᴄʏʙᴇʀꜱᴇᴄᴜʀɪᴛʏ ꜰʀᴀᴍᴇᴡᴏʀᴋ ᴅᴇᴠᴇʟᴏᴘᴇᴅ ꜰᴏʀ ᴇɴᴛᴇʀᴘʀɪꜱᴇ ɴᴇᴛᴡᴏʀᴋ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ")
+    print(f'{Fore.LIGHTRED_EX}🎯    ███████╗     ██████╗      ██████╗    ██╗   ██╗    ███████╗    🎯')
+    print(f'  🎯  ██╔════╝    ██╔═══██╗    ██╔════╝    ██║   ██║    ██╔════╝  🎯  ')
+    print(f'🎯    █████╗      ██║   ██║    ██║         ██║   ██║    ███████╗    🎯')
+    print(f'  🎯  ██╔══╝      ██║   ██║    ██║         ██║   ██║    ╚════██║  🎯  ')
+    print(f'🎯    ██║         ╚██████╔╝    ╚██████╗    ╚██████╔╝    ███████║    🎯')
+    print(f'  🎯  ╚═╝          ╚═════╝      ╚═════╝     ╚═════╝     ╚══════╝  🎯  ')
+    print(f"{Fore.BLUE}ᴀ ᴄʏʙᴇʀꜱᴇᴄᴜʀɪᴛʏ ꜰʀᴀᴍᴇᴡᴏʀᴋ ᴅᴇᴠᴇʟᴏᴘᴇᴅ ꜰᴏʀ ᴇɴᴛᴇʀᴘʀɪꜱᴇ ɴᴇᴛᴡᴏʀᴋ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ")
     print(Fore.RESET)
 
     #Display project options
@@ -28,7 +26,7 @@ while True:
 
     print(f"{Fore.CYAN}")
     #Wait on user input
-    UserInput1 = (input("Choose an Option: "))
+    UserInput1 = (input(">  "))
 
     #Input Tree
     if UserInput1.strip() == '1':
@@ -40,7 +38,7 @@ while True:
 
         # Port scanning via multi-thread distribution
         start = time.time()  # Function Start Time
-        for port in range(1, 60000):
+        for port in range(1, 65536):
             if port in WhitelistedPortsList:
                 continue
 
@@ -49,35 +47,25 @@ while True:
 
         end = time.time()  # Function End Time
 
+        #Message formatting
+        message = ''
+        for port in OpenPorts:
+            message = message + str(port) + '\n'
 
-        # Function to send Push Notification
-
-        #def pushbullet_noti(title, body):
-        #    TOKEN = 'o.cDR7EQue2balRRC56YoMuz0rENGyW5ec'  # Pass your Access Token here
-        #    # Make a dictionary that includes, title and body
-        #    msg = {"type": "note", "title": title, "body": body}
-        #    # Sent a posts request
-        #    resp = requests.post('https://api.pushbullet.com/v2/pushes',
-        #                         data=json.dumps(msg),
-        #                         headers={'Authorization': 'Bearer ' + TOKEN,
-        #                                  'Content-Type': 'application/json'})
-        #    if resp.status_code != 200:  # Check if fort message send with the help of status code
-        #        raise Exception('Error', resp.status_code)
-        #    else:
-        #        print('Message sent')
-
-
-        #message = ''
-        #for port in OpenPorts:
-        #    message = message + str(port) + '\n'
-
-        #pushbullet_noti('Open Ports Detected:\n', message)
-        print("")
-        print("")
-        print("Scan Complete!")
-        print(f"Time taken for scan: {end - start} Seconds")
-        print('Hit enter to continue...')
-        input()
+        if len(OpenPorts) == 0:
+            print('No port detected.')
+        else:
+            #Port closer
+            print('Attempting to close ports...')
+            for port in OpenPorts:
+                PortCloser(port)
+            pushbullet_noti('Open Ports Detected and Terminated:\n', message)
+            print("")
+            print("")
+            print("Scan Complete!")
+            print(f"Time taken for scan: {end - start} Seconds")
+            print('Hit enter to continue...')
+            input()
 
     elif UserInput1.strip() == '2':
         clear()
@@ -141,7 +129,7 @@ while True:
 
     elif UserInput1.strip() == '3':
         clear()
-        print(webbrowser.open('https://github.com/Friedlguana/R.A.I.N.'))
+        print(webbrowser.open('https://github.com/Friedlguana/FOCUS'))
 
     elif UserInput1.strip() == '0':
         break

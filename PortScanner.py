@@ -1,29 +1,36 @@
-# Module Import
-import threading
-import time
-from functions import port_scanner
+import time, threading
+from functions import port_scanner, OpenPorts, pushbullet_noti
 
+print('Port scanner is Running...')
 # Formatting Whitelist Ports
-WhitelistedPortsFile = open('Whitelisted Ports.txt', 'r')
-WhitelistedPortsList = WhitelistedPortsFile.readlines()
-FormattedPortsList = []
-for WPorts in WhitelistedPortsList:
-    FormattedPortsList.append(WPorts.replace("\n", ""))
-
-    # Converting Str List to Int List
-    IntPortList = [eval(IntPort) for IntPort in FormattedPortsList]
+with open('Whitelisted Ports.txt', 'r') as WhitelistedPortsFile:
+    WhitelistedPortsList = [int(port.strip()) for port in WhitelistedPortsFile.readlines()]
 
 # Port scanning via multi-thread distribution
 start = time.time()  # Function Start Time
-for port in range(1, 60000):
-    if port in IntPortList:
+for port in range(1, 65536):
+    if port in WhitelistedPortsList:
         continue
 
     thread = threading.Thread(target=port_scanner, args=[port])
     thread.start()
 
 end = time.time()  # Function End Time
-print("")
-print("")
-print("Scan Complete!")
-print(f"Time taken for scan: {end - start} Seconds")
+
+#Message formatting
+message = ''
+for port in OpenPorts:
+    message = message + str(port) + '\n'
+
+if len(OpenPorts) == 0:
+    print('No port detected.')
+else:
+    #Port closer
+    print('Attempting to close ports...')
+    pushbullet_noti('Open Ports Detected and Terminated:\n', message)
+    print("")
+    print("")
+    print("Scan Complete!")
+    print(f"Time taken for scan: {end - start} Seconds")
+    print('Hit enter to continue...')
+    input()
