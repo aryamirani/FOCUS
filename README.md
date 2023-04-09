@@ -1,15 +1,15 @@
 
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://cdn.discordapp.com/attachments/837353561259769958/1012801276867772416/rainainaina.png" alt="Markdownify" width="900"></a>
+  <a href="https://github.com/Friedlguana/FOCUS"><img src="https://cdn.discordapp.com/attachments/879937276858220564/1092860472723779625/image.png" alt="FOCUS" width="900"></a>
   <br>
   <b> <u>
-  🌧️ The R.A.I.N Framework 🌧️
+  🌧️ The FOCUS Framework 🌧️
   </b> </u>
   <br>
 </h1>
 
-<h4 align="center">A Ransomware prevention framework which integrates Machine Learning to reduce chances of getting affected, Made with  <a href="https://www.python.org/" target="_blank">Python</a>.</h4>
+<h4 align="center">A Malware prevention framework which integrates Machine Learning to reduce chances of getting affected, Made with  <a href="https://www.python.org/" target="_blank">Python</a>.</h4>
 
 
 </p>
@@ -21,7 +21,7 @@
   <a href="#credits">Credits</a> 
 </p>
 
-![screenshot](https://cdn.discordapp.com/attachments/837353561259769958/1012956440849297548/chrome_kpaEKWIy7k.png)
+![screenshot](https://media.discordapp.net/attachments/879937276858220564/1092861110555787274/image.png?width=771&height=363)
 
 <u>
 
@@ -44,13 +44,13 @@
 </b> </u>
 ```bash
 # Clone this repository
-$ git clone https://github.com/Friedlguana/R.A.I.N..git
+$ git clone https://github.com/Friedlguana/FOCUS
 
 # Install the dependencies 
 $ pip install -r requirements.txt 
 
 # Go into the repository
-$ cd R.A.I.N.
+$ cd FOCUS
 
 # Run the Framework
 $ python3 main.py
@@ -62,10 +62,5 @@ $ python3 main.py
 
 This framework was made by -
 - **Rijul** 
-- **Humaidh**
-- **Ojas**
-- **Atharawa**
+- **Arya**
 ------------------------
-
- ## **Made for [Meckathon 2022](https://mec.edu.om/meckathon2022/)**
- ----------
