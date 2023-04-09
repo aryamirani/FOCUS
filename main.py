@@ -58,6 +58,7 @@ while True:
             #Port closer
             print('Attempting to close ports...')
             for port in OpenPorts:
+                print(port)
                 PortCloser(port)
             pushbullet_noti('Open Ports Detected and Terminated:\n', message)
             print("")

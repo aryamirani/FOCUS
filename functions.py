@@ -47,4 +47,4 @@ def PortCloser(port):
                     proc.terminate()
                     print('Process terminated')
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
+            print('NoSuchProcess/AccessDenied/ZombieProcess')
