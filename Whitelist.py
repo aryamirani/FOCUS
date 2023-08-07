@@ -1,14 +1,21 @@
+from tkinter import getboolean
+from webbrowser import get
 import face_recognition
 import cv2
 import numpy as np
 import os
 import sys
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 
 video_capture = cv2.VideoCapture(0)
 
 
-arya_image = face_recognition.load_image_file(r"E:\SDC\FOCUS-main\FOCUS-main\accepted faces\arya.jpg")
+arya_image = face_recognition.load_image_file(r"D:\SDC\FOCUS-main\FOCUS-main\accepted faces\arya.jpg")
 arya_face_encoding = face_recognition.face_encodings(arya_image)[0]
 
 known_face_encodings = [
@@ -27,7 +34,6 @@ face_names = []
 process_this_frame = True
 
 while True:
-
     ret, frame = video_capture.read()
 
 
@@ -40,7 +46,7 @@ while True:
 
 
         face_locations = face_recognition.face_locations(rgb_small_frame)
-        if len(face_locations) == 0:
+        while len(face_locations) == 0:
             print("No faces detected")
             sys.exit()
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
@@ -60,7 +66,7 @@ while True:
             face_names.append(name)
 
             if name != "Unknown":
-                os.startfile(r"E:\SDC\FOCUS-main\FOCUS-main\Whitelisted Ports.txt")
+                os.startfile(r"D:\SDC\FOCUS-main\FOCUS-main\Whitelisted Ports.txt")
 
                 process_this_frame = not process_this_frame
 
@@ -91,8 +97,7 @@ while True:
                 video_capture.release()
                 cv2.destroyAllWindows()
 
-                os.startfile(r"E:\SDC\FOCUS-main\FOCUS-main\Whitelisted Ports.txt")
-                quit()
+                
 
 
             if not face_locations:
@@ -102,5 +107,73 @@ while True:
                 cap = cv2.VideoCapture(0)
                 ret, frame = cap.read()
                 cap.release()
-                cv2.imwrite("photo.jpg", frame)
+                cv2.imwrite("D:\SDC\FOCUS-main\FOCUS-main\illegal logins\photo.jpg", frame)
+
+
+
+                #SENDING AN EMAIL FOR UNAUTHORIZED ACCESS
+
+
+                smtp_port = 587                 
+                smtp_server = "smtp.gmail.com"  
+
+                email_from = "aryamirani06@gmail.com"
+                email_list = ["aryaamiranii@gmail.com", "28278.arya@iswkoman.com"]
+
+                pswd = "hgupxhpjnwczunkh" 
+
+                subject = "UNAUTHORIZED LOGIN ATTEMPT !!"
+
+                def send_emails(email_list):
+
+                    for person in email_list:
+
+      
+                        body = f"""
+                        THIS PERSON TRIED TO ACCESS THE WHITELIST WITHOUT AUTHORIZATION """
+
+        
+                        msg = MIMEMultipart()
+                        msg['From'] = email_from
+                        msg['To'] = person
+                        msg['Subject'] = subject
+
+                        msg.attach(MIMEText(body, 'plain'))
+       
+                        filename = "D:\SDC\FOCUS-main\FOCUS-main\illegal logins\photo.jpg"
+       
+                        attachment= open(filename, 'rb')  # r for read and b for binary
+       
+                        attachment_package = MIMEBase('application', 'octet-stream')
+
+                        attachment_package.set_payload((attachment).read())
+                        
+                        encoders.encode_base64(attachment_package)
+                        
+                        attachment_package.add_header('Content-Disposition', "attachment; filename= " + filename)
+                        
+                        msg.attach(attachment_package)
+       
+                        text = msg.as_string()       
+                        
+                        TIE_server = smtplib.SMTP(smtp_server, smtp_port)
+                        TIE_server.starttls()
+                        TIE_server.login(email_from, pswd)
+                        
+                        print()
+                       
+                        TIE_server.sendmail(email_from, person, text)
+                        
+                        print()
+   
+                    TIE_server.quit()
+
+                send_emails(email_list)
+
                 quit()
+quit()
+
+
+
+
+                
