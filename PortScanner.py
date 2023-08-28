@@ -1,13 +1,13 @@
 import time, threading
-from functions import port_scanner, OpenPorts, pushbullet_noti
+from functions import port_scanner, OpenPorts
 
 print('Port scanner is Running...')
 # Formatting Whitelist Ports
-with open('Whitelisted Ports.txt', 'r') as WhitelistedPortsFile:
+with open("Whitelisted Ports.txt", 'r') as WhitelistedPortsFile:
     WhitelistedPortsList = [int(port.strip()) for port in WhitelistedPortsFile.readlines()]
 
 # Port scanning via multi-thread distribution
-start = time.time()  # Function Start Time
+start = time.time()
 for port in range(1, 65536):
     if port in WhitelistedPortsList:
         continue
@@ -15,7 +15,7 @@ for port in range(1, 65536):
     thread = threading.Thread(target=port_scanner, args=[port])
     thread.start()
 
-end = time.time()  # Function End Time
+end = time.time() 
 
 #Message formatting
 message = ''
@@ -24,13 +24,4 @@ for port in OpenPorts:
 
 if len(OpenPorts) == 0:
     print('No port detected.')
-else:
-    #Port closer
-    print('Attempting to close ports...')
-    pushbullet_noti('Open Ports Detected and Terminated:\n', message)
-    print("")
-    print("")
-    print("Scan Complete!")
-    print(f"Time taken for scan: {end - start} Seconds")
-    print('Hit enter to continue...')
-    input()
+input('Scan Complete')
